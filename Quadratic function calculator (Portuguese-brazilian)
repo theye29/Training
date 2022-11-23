@@ -1,0 +1,29 @@
+# calculo de equaçoes e raizes de uma função quadrática
+import math
+a = int(input("Escreva o termo a: "))
+b = int(input("escreva o termo b: "))
+c = int(input("escreva o termo c: "))
+
+if c != 0:
+    delta = (b ** 2) - 4 * a * c
+    if delta >= 0:
+        x1 = (-abs(b) + math.sqrt(delta)) / (2 * a)
+        x2 = (-abs(b) - math.sqrt(delta)) / (2 * a)
+        vertice_x = -abs(b) / (2 * a)
+        vertice_y = -abs(delta) / (4 * a)
+
+        print(f"delta = {delta} \nx1 = {round(x1, 1)} \nx2 = {round(x2, 1)} \nY = {c}")
+        print(f"Vértice de x = {round(vertice_x, 1)} \nVértice de y = {round(vertice_y, 1)}")
+    else:
+        vertice_x = -abs(b) / (2 * a)
+        vertice_y = -abs(delta) / (4 * a)
+        print(f"delta = {delta} \ny = {c}")
+        print(f"Vértice de x = {round(vertice_x, 1)} \nVértice de y = {round(vertice_y, 1)}")
+else:
+    resultado = int(input("Qual é o resultado da equação?"))
+    if b > 0:
+        b = resultado - b
+    elif b < 0:
+        b = resultado + b
+    x = b / a
+    print(f"O valor de x é {x}")
