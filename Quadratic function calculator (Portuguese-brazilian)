@@ -22,8 +22,8 @@ if c != 0:
 else:
     resultado = int(input("Qual é o resultado da equação?"))
     if b > 0:
-        b = resultado - b
-    elif b < 0:
         b = resultado + b
+    elif b < 0:
+        b = resultado - b
     x = b / a
-    print(f"O valor de x é {x}")
+    print(f"O valor de x é {round(x, 2)}")
