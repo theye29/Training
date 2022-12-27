@@ -1,0 +1,37 @@
+from time import sleep
+from playsound import playsound
+import random
+import math
+
+class Player:
+    def __init__(self, lvl, xp, hp, limit, dmg, maxhp):
+        self.maxhp = maxhp
+        self.hp = hp
+        self.limit = limit
+        self.dmg = dmg
+        self.lvl = lvl
+        self.xp = xp
+    def stats(self):
+        print(f"HP: {p1.hp}/{p1.maxhp}\nLVL: {p1.lvl}\nDMG: {p1.dmg}\nXP:{p1.xp}/{p1.limit}")
+    def lvl_up(self):
+        self.lvl += 1
+        self.xp = self.xp - self.limit
+        self.maxhp = 8 + ((self.lvl * 2) + self.lvl * (self.lvl - 1))
+        self.hp = self.maxhp
+        self.limit = (10 * self.lvl) + (math.trunc(self.lvl / 5)) + (math.trunc(self.lvl / 15))
+        self.dmg += 2 + (math.trunc(self.lvl / 5))
+class Monster:
+    def __init__(self, hp, xp, dmg):
+        self.hp = hp
+        self.xp = xp
+        self.dmg = dmg
+
+slime = Monster(hp=15, xp=2,dmg=random.randint(1,2))
+p1 = Player(lvl=1, xp=0, hp=10, limit=10, dmg=2, maxhp=10)
+p1.stats()
+while True:
+    p1.xp += int(input("Raise your xp: "))
+    if p1.xp >= p1.limit:
+        while p1.xp >= p1.limit:
+            p1.lvl_up()
+    p1.stats()
