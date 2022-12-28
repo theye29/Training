@@ -6,7 +6,7 @@ battle = False
 
 
 class Player:
-    def __init__(self, lvl=1, xp=0, hp=15, limit=15, dmg=3, max_hp=10):
+    def __init__(self, lvl=1, xp=0, hp=15, limit=10, dmg=3, max_hp=15):
         self.max_hp = max_hp
         self.hp = hp
         self.limit = limit
