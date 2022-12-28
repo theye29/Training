@@ -1,27 +1,34 @@
-from time import sleep
-from playsound import playsound
 import random
 import math
+from time import sleep
+
+battle = False
+
 
 class Player:
-    def __init__(self, lvl, xp, hp, limit, dmg, maxhp):
-        self.maxhp = maxhp
+    def __init__(self, lvl=1, xp=0, hp=15, limit=15, dmg=3, max_hp=10):
+        self.max_hp = max_hp
         self.hp = hp
         self.limit = limit
         self.dmg = dmg
         self.lvl = lvl
         self.xp = xp
-        
+
+    @staticmethod
     def stats(self):
-        print(f"HP: {p1.hp}/{p1.maxhp}\nLVL: {p1.lvl}\nDMG: {p1.dmg}\nXP:{p1.xp}/{p1.limit}")
-        
+        print(f"HP: {self.hp}/{self.max_hp}\nLVL: {self.lvl}\nDMG: {self.dmg}\nXP:{self.xp}/{self.limit}")
+
     def lvl_up(self):
-        self.lvl += 1
-        self.xp = self.xp - self.limit
-        self.maxhp = 8 + ((self.lvl * 2) + self.lvl * (self.lvl - 1))
-        self.hp = self.maxhp
-        self.limit = (10 * self.lvl) + (math.trunc(self.lvl / 5)) + (math.trunc(self.lvl / 15))
-        self.dmg += 2 + (math.trunc(self.lvl / 5))
+        if self.xp >= self.limit:
+            self.lvl += 1
+            self.xp = self.xp - self.limit
+            self.max_hp = 8 + ((self.lvl * 2) + self.lvl * (self.lvl - 1))
+            self.hp = self.max_hp
+            self.limit = (10 * self.lvl) + (math.trunc(self.lvl / 5)) + (math.trunc(self.lvl / 15))
+            self.dmg += 2 + (math.trunc(self.lvl / 5))
+        else:
+            print(f"XP:{self.xp}/{self.limit}")
+
 
 class Monster:
     def __init__(self, hp, xp, dmg):
@@ -29,12 +36,82 @@ class Monster:
         self.xp = xp
         self.dmg = dmg
 
-p1 = Player(lvl=1, xp=0, hp=10, limit=10, dmg=2, maxhp=10)
 
-p1.stats()
+slime = Monster(hp=10, xp=2, dmg=2)
+p1 = Player()
+
+print("Bem vindo ao Trash RPG!")
+sleep(1)
+print("Esse jogo é apenas uma demonstração")
 while True:
-    p1.xp += int(input("Raise your xp: "))
-    if p1.xp >= p1.limit:
-        while p1.xp >= p1.limit:
-            p1.lvl_up()
-    p1.stats()
+    try:
+        fazer = int(input("O que quer fazer agora?(escolha uma das opções):\n(1.Andar)\n(2.Status)\n-->"))
+        if fazer == 1:
+            print("Você anda por ai.", end="")
+            sleep(1)
+            print(".", end="")
+            sleep(1)
+            print(".")
+            sleep(1)
+            print("Um Slime aparece!")
+            sleep(1)
+            battle = True
+            break
+        elif fazer == 2:
+            p1.stats(p1)
+        else:
+            print("Por favor, escolha uma das opções.")
+    except ValueError:
+        print("Por favor escolha uma das opções.")
+while battle:
+    try:
+        trial = int(input("O que fazer?\n(1.Atacar)\n(2.Correr)\n(3.Status)\n-->"))
+        if trial == 1:
+            print("Você ataca o Slime!")
+            sleep(1.2)
+            dano = random.randrange(math.trunc(p1.dmg*0.5), math.trunc(p1.dmg*1.5))
+            print(f"Você dá {dano} DMG!")
+            sleep(1.2)
+            slime.hp -= dano
+            if slime.hp > 0:
+                print("Slime te ataca!")
+                sleep(1.2)
+                dano = random.randrange(math.trunc(slime.dmg*0.5), math.trunc(slime.dmg*1.5))
+                print(f"Slime dá {dano} DMG!")
+                sleep(1.2)
+                p1.hp -= dano
+                if p1.hp <= 0:
+                    print("GAME OVER")
+                    break
+                continue
+            else:
+                print("Você derrotou Slime!")
+                sleep(0.5)
+                print(f"Você ganhou {slime.xp} XP!")
+                sleep(0.5)
+                p1.xp += slime.xp
+                p1.lvl_up()
+                battle = False
+        elif trial == 2:
+            print("Você tenta escapar...")
+            sleep(2)
+            if random.randint(0, 7) == random.randint(0, 7):
+                print("Escapado com sucesso!")
+                battle = False
+            else:
+                print("Não conseguiu!")
+                sleep(1.5)
+                print("Slime te ataca!")
+                sleep(1.2)
+                dano = random.randrange(math.trunc(slime.dmg * 0.5), math.trunc(slime.dmg * 1.5))
+                print(f"Slime dá {dano} DMG!")
+                sleep(1.5)
+                p1.hp -= dano
+                if p1.hp <= 0:
+                    print("GAME OVER")
+                    break
+                continue
+        elif trial == 3:
+            p1.stats(p1)
+    except ValueError:
+        print("Escolha uma das opções.")
